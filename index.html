@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viveka — Student Research Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #555;
+    --ink-faint: #999;
+    --paper: #f8f5f0;
+    --paper-warm: #ede9e2;
+    --accent: #1a3a2a;
+    --accent-light: #2e6648;
+    --accent-pale: #d4e8dc;
+    --rule: rgba(15,15,15,0.12);
+    --gold: #b8892a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: block;
+    padding: 0 1.1rem;
+    height: 64px;
+    line-height: 64px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-muted);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .nav-links li:hover .dropdown-menu { display: block; }
+  .dropdown-menu a {
+    height: auto; line-height: 1.4;
+    padding: 0.75rem 1.2rem;
+    display: block;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.82rem;
+  }
+  .dropdown-menu a:last-child { border-bottom: none; }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 4rem 3rem;
+    gap: 4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-text {}
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-fill { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+  .btn-fill:hover { background: var(--accent-light); border-color: var(--accent-light); color: var(--paper); }
+
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+  }
+  .hero-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .stat-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+  }
+  .hero-quote {
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    background: var(--paper-warm);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+  }
+
+  /* SECTION */
+  section { padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    max-width: 640px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.85;
+    margin-bottom: 1rem;
+  }
+  .about-pillars { display: flex; flex-direction: column; gap: 0; }
+  .pillar {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .pillar:first-child { border-top: 1px solid var(--rule); }
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    margin-top: 0.2rem;
+    min-width: 28px;
+  }
+  .pillar-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .pillar-desc { font-size: 0.85rem; color: var(--ink-muted); }
+
+  /* TENURE CARDS */
+  .tenure-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .tenure-card {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tenure-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+  .tenure-card-header {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+  }
+  .tenure-card-header.v2 { background: var(--ink); }
+  .tenure-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+  .tenure-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .tenure-card-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    opacity: 0.55;
+    margin-top: 0.4rem;
+  }
+  .tenure-card-body {
+    padding: 1.75rem 2rem;
+  }
+  .tenure-card-desc {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+  .tenure-card-link {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .tenure-card.v2 .tenure-card-link { color: var(--ink); }
+  .tenure-card-link::after { content: '→'; }
+  .tenure-themes {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+  .theme-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    background: var(--paper-warm);
+  }
+
+  /* ADVISORS */
+  .advisors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .advisor-card {
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--paper-warm);
+  }
+  .advisor-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .advisor-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .advisor-role { font-size: 0.75rem; color: var(--ink-faint); letter-spacing: 0.05em; }
+  .advisor-affil { font-size: 0.8rem; color: var(--ink-muted); margin-top: 0.4rem; }
+
+  /* SUPPORTERS */
+  .supporters-row {
+    display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+    margin-top: 2rem;
+  }
+  .supporter-badge {
+    border: 1px solid var(--rule);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    background: var(--paper-warm);
+    letter-spacing: 0.04em;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy { font-size: 0.75rem; color: var(--ink-faint); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; }
+    .hero-visual { display: none; }
+    section { padding: 3.5rem 1.5rem; }
+    .about-grid, .tenure-grid { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Viveka</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li style="position:relative;">
+      <a href="#">Tenure ▾</a>
+      <div class="dropdown-menu">
+        <a href="viveka-1.html">Viveka 1.0 — 2025–26</a>
+        <a href="viveka-2.html">Viveka 2.0 — 2026–27</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="border-top: none;">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Student-run Research Lab · Est. 2025</p>
+    <h1 class="hero-title">Asking the <em>right</em> questions about AI.</h1>
+    <p class="hero-sub">Viveka is a student-led research collective investigating the internal workings of large language models — mechanistic interpretability, reasoning, and the frontiers of AGI evaluation.</p>
+    <div class="hero-ctas">
+      <a href="viveka-1.html" class="btn btn-fill">Viveka 1.0</a>
+      <a href="viveka-2.html" class="btn">Viveka 2.0</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-stat-grid">
+      <div class="stat-card">
+        <span class="stat-num">11</span>
+        <span class="stat-label">Researchers</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Tenures</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Curiosity</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">2025</span>
+        <span class="stat-label">Founded</span>
+      </div>
+    </div>
+    <div class="hero-quote">
+      "Viveka" — Sanskrit for discernment, the ability to distinguish truth from illusion.
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT US -->
+<section id="about">
+  <div class="section-label">01 — About Us</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title">A lab built on curiosity and rigor.</h2>
+      <div class="about-text">
+        <p>Viveka is a student-run research lab focused on mechanistic interpretability and the evaluation of large language models. We are a group of undergraduate researchers who believe that understanding AI from the inside is one of the most important scientific challenges of our time.</p>
+        <p>We operate in year-long tenures, each with a focused research agenda, a dedicated team, and a commitment to impactful work. Our research is open, collaborative, and grounded in both theoretical depth and empirical rigor.</p>
+        <p>We welcome advisors, collaborators, and supporters who share our conviction.</p>
+      </div>
+    </div>
+    <div class="about-pillars">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div>
+          <div class="pillar-title">Open research</div>
+          <div class="pillar-desc">All findings, code, and datasets are shared publicly.</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div>
+          <div class="pillar-title">Student-led, mentor-guided</div>
+          <div class="pillar-desc">Students drive the agenda. Advisors provide depth and direction. Project leads nurture the next set of undergraduate student research leads every tenure.</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div>
+          <div class="pillar-title">Mechanistic focus</div>
+          <div class="pillar-desc">We go beyond benchmarks — we want to know <em>why</em> models behave the way they do.</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">04</span>
+        <div>
+          <div class="pillar-title">Impactful work</div>
+          <div class="pillar-desc">Our goal every tenure is to try and make our best contribution to the problem at hand.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENURES -->
+<section id="tenures">
+  <div class="section-label">02 — Tenures</div>
+  <h2 class="section-title">Two focused chapters of research.</h2>
+  <div class="tenure-grid">
+    <!-- Viveka 1.0 -->
+    <a href="viveka-1.html" class="tenure-card">
+      <div class="tenure-card-header">
+        <div class="tenure-tag">Tenure One</div>
+        <div class="tenure-card-title">Viveka 1.0</div>
+        <div class="tenure-card-year">2025 — 2026</div>
+      </div>
+      <div class="tenure-card-body">
+        <div class="tenure-themes">
+          <span class="theme-tag">Mechanistic Interpretability</span>
+          <span class="theme-tag">Hallucinations</span>
+          <span class="theme-tag"> Two hop Factual Recall</span>
+          <span class="theme-tag">In-Context Learning</span>
+          <span class="theme-tag">Mealy markov models and transformers</span>
+        </div>
+        <p class="tenure-card-desc">Our inaugural tenure investigates the mechanistic underpinnings of LLM hallucinations, factual recall circuits, and the dynamics of in-context learning. Through probing, activation patching, causal tracing, training toy models in mathematical frameworks, we try to build rigorous explanations of model internals from the ground up.</p>
+        <span class="tenure-card-link">Explore Viveka 1.0</span>
+      </div>
+    </a>
+
+    <!-- Viveka 2.0 -->
+    <a href="viveka-2.html" class="tenure-card v2">
+      <div class="tenure-card-header v2">
+        <div class="tenure-tag">Tenure Two</div>
+        <div class="tenure-card-title">Viveka 2.0</div>
+        <div class="tenure-card-year">2026 — 2027</div>
+      </div>
+      <div class="tenure-card-body">
+        <div class="tenure-themes">
+          <span class="theme-tag">ARC-AGI 2</span>
+          <span class="theme-tag">Abstract Reasoning</span>
+          <span class="theme-tag">AGI Evaluation</span>
+        </div>
+        <p class="tenure-card-desc">Building on the interpretability foundation of V1.0, our second tenure turns toward frontier AGI evaluation. We interpret and advance performance on ARC-AGI 2, probing how (and whether) models generalise, reason abstractly, and compose solutions to genuinely novel problems.</p>
+        <span class="tenure-card-link" style="color:var(--ink);">Explore Viveka 2.0</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ADVISORS -->
+<section id="advisors">
+  <div class="section-label">03 — Advisors</div>
+  <h2 class="section-title">Guided by those who've gone further.</h2>
+  <div class="advisors-grid">
+    <div class="advisor-card">
+      <div class="advisor-avatar">AP</div>
+      <div class="advisor-name">Dr. Nitish Mital</div>
+      <div class="advisor-role">Research Mentor</div>
+      <div class="advisor-affil"></div>
+    </div>
+    <div class="advisor-card">
+      <div class="advisor-avatar">KR</div>
+      <div class="advisor-name">Prof. Avishek Chatterjee</div>
+      <div class="advisor-role">Research Mentor</div>
+      <div class="advisor-affil">Department of Electrical Engineering, IIT Madras, India</div>
+    </div>
+    <div class="advisor-card">
+      <div class="advisor-avatar">SM</div>
+      <div class="advisor-name">Prof. Kaushik Mitra</div>
+      <div class="advisor-role">Faculty Advisor, AI Club, CFI</div>
+      <div class="advisor-affil">Department of Electrical Engineering, IIT Madras, India</div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTERS -->
+<section id="supporters">
+  <div class="section-label">04 — Supporters</div>
+  <h2 class="section-title">Made possible by generous support.</h2>
+  <p style="color:var(--ink-muted); max-width:560px; margin-bottom: 1rem;">We are grateful for the compute, funding, and mentorship provided by our supporters. If you'd like to support Viveka, reach out.</p>
+  <div class="supporters-row">
+    <div class="supporter-badge">ExceptionRaised!</div>
+    <div class="supporter-badge">Feather Grant / Grad Capital</div>
+    <div class="supporter-badge">Supporter / Institution Name</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Viveka</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="viveka-1.html">Viveka 1.0</a>
+    <a href="viveka-2.html">Viveka 2.0</a>
+  </div>
+  <div class="footer-copy">© 2025 Viveka Student Research Lab</div>
+</footer>
+
+</body>
+</html>

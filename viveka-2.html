@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viveka 2.0 — Interpreting & Advancing ARC-AGI 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #555;
+    --ink-faint: #999;
+    --paper: #f8f5f0;
+    --paper-warm: #ede9e2;
+    --accent: #0f0f0f;
+    --accent-light: #333;
+    --accent-pale: #e2e2e2;
+    --rule: rgba(15,15,15,0.12);
+    --gold: #b8892a;
+    --v2: #1c1c2e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 64px;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #1a3a2a; text-decoration: none; }
+  .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a { display: block; padding: 0 1.1rem; height: 64px; line-height: 64px; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-muted); transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--paper); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .nav-links li:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { height: auto; line-height: 1.4; padding: 0.75rem 1.2rem; display: block; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
+  .dropdown-menu a:last-child { border-bottom: none; }
+
+  /* HERO */
+  .tenure-hero {
+    background: var(--v2);
+    color: #f8f5f0;
+    padding: 5rem 3rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .tenure-hero::before {
+    content: '2.0';
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 14rem;
+    font-weight: 700;
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .tenure-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.45; margin-bottom: 1rem; }
+  .tenure-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.05; margin-bottom: 1rem; }
+  .tenure-sub { font-size: 1.1rem; opacity: 0.7; max-width: 560px; line-height: 1.7; margin-bottom: 2rem; }
+  .tenure-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .tenure-meta-item { font-size: 0.8rem; opacity: 0.45; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tenure-meta-val { font-size: 1rem; font-weight: 500; opacity: 1; display: block; margin-top: 0.15rem; }
+
+  .page-section { padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.4rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; max-width: 640px; }
+
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .intro-text p { font-size: 0.97rem; color: var(--ink-muted); line-height: 1.85; margin-bottom: 1rem; }
+  .intro-concepts { display: flex; flex-direction: column; gap: 0; }
+  .concept { padding: 1.25rem 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 3fr; gap: 1rem; align-items: start; }
+  .concept:first-child { border-top: 1px solid var(--rule); }
+  .concept-key { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--ink); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.1rem; }
+  .concept-val { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.6; }
+
+  /* PUB CARDS */
+  .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+  .pub-card {
+    border: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    min-height: 180px;
+    background: var(--paper);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.2s;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .pub-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .pub-img { background: var(--paper-warm); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--ink); border-right: 1px solid var(--rule); min-height: 180px; }
+  .pub-body { padding: 1.25rem 1.4rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .pub-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .pub-tag { font-size: 0.65rem; padding: 0.15rem 0.55rem; border: 1px solid var(--accent-pale); background: var(--accent-pale); color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; }
+  .pub-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; line-height: 1.3; color: var(--ink); }
+  .pub-title:hover { color: var(--ink-muted); }
+  .pub-authors { font-size: 0.78rem; color: var(--ink-faint); }
+  .pub-oneliner { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; }
+  .pub-type-badge { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-family: 'DM Mono', monospace; margin-top: auto; }
+
+  /* TEAM REDIRECT */
+  .team-redirect { background: var(--v2); color: #f8f5f0; padding: 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .team-redirect h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+  .team-redirect p { font-size: 0.9rem; opacity: 0.65; margin-top: 0.4rem; max-width: 420px; }
+  .btn { display: inline-block; padding: 0.7rem 1.8rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 1.5px solid #f8f5f0; color: #f8f5f0; background: transparent; transition: all 0.2s; }
+  .btn:hover { background: #f8f5f0; color: var(--v2); }
+
+  footer { padding: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--rule); }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1a3a2a; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; text-decoration: none; color: var(--ink-muted); }
+  .footer-links a:hover { color: var(--ink); }
+  .footer-copy { font-size: 0.75rem; color: var(--ink-faint); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .tenure-hero { padding: 3.5rem 1.5rem; }
+    .tenure-hero::before { display: none; }
+    .page-section { padding: 3.5rem 1.5rem; }
+    .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .pub-grid { grid-template-columns: 1fr; }
+    .pub-card { grid-template-columns: 1fr; }
+    .pub-img { min-height: 120px; border-right: none; border-bottom: 1px solid var(--rule); }
+    footer { padding: 2rem 1.5rem; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Viveka</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li style="position:relative;">
+      <a href="#" class="active">Tenure ▾</a>
+      <div class="dropdown-menu">
+        <a href="viveka-1.html">Viveka 1.0 — 2025–26</a>
+        <a href="viveka-2.html" style="color:var(--ink); font-weight:500;">Viveka 2.0 — 2026–27</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="tenure-hero">
+  <div class="tenure-eyebrow">Tenure Two · 2026–2027</div>
+  <h1 class="tenure-title">Viveka 2.0</h1>
+  <p class="tenure-sub">Interpreting and advancing ARC-AGI 2 — probing the limits of abstract reasoning, compositional generalisation, and genuine novelty-handling in frontier AI systems.</p>
+  <div class="tenure-meta">
+    <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">AGI Evaluation & Reasoning</span></div>
+    <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Aug 2026 – May 2027</span></div>
+    <div class="tenure-meta-item">Researchers<span class="tenure-meta-val">9 Members</span></div>
+    <div class="tenure-meta-item">Status<span class="tenure-meta-val">Upcoming</span></div>
+  </div>
+</div>
+
+<!-- TECHNICAL INTRO -->
+<div class="page-section">
+  <div class="section-label">01 — Technical Introduction</div>
+  <div class="intro-grid">
+    <div>
+      <h2 class="section-title">Can AI systems truly reason about novel problems?</h2>
+      <div class="intro-text">
+        <p>ARC-AGI 2 represents one of the most demanding evaluations of abstract reasoning in AI: tasks designed explicitly so that memorisation and pattern-matching are insufficient. Success requires genuine compositional generalisation — the ability to combine known primitives in ways never encountered during training.</p>
+        <p>Viveka 2.0 sits at the intersection of interpretability and capability. We don't just want to know whether frontier models can solve ARC-AGI 2 tasks — we want to understand <em>how</em> they attempt them, where they fail, and what internal representations underlie the approaches that succeed.</p>
+        <p>By combining the mechanistic toolkit developed in Viveka 1.0 with the empirical challenge of ARC-AGI 2, we aim to produce the first detailed interpretability studies of abstract reasoning circuits in large language and vision-language models. We also aim to advance state-of-the-art performance through informed, interpretability-guided algorithmic improvements.</p>
+      </div>
+    </div>
+    <!-- <div class="intro-concepts">
+      <div class="concept">
+        <span class="concept-key">ARC-AGI 2</span>
+        <span class="concept-val">A benchmark of visual abstract reasoning tasks that resist shortcut solutions, requiring compositional understanding of novel patterns from minimal examples.</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Reasoning Circuits</span>
+        <span class="concept-val">We use mechanistic interpretability to trace how (and whether) transformer circuits implement analogical reasoning, rule induction, and spatial abstraction.</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Generalisation</span>
+        <span class="concept-val">We study the gap between task-specific performance and genuine compositional generalisation, with ablation studies across architectures and scales.</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Methods</span>
+        <span class="concept-val">Activation patching · Program synthesis · Neuro-symbolic hybrids · Chain-of-thought tracing · Attention probing · Vision-language interpretability</span>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<!-- TEAM REDIRECT -->
+<div class="page-section" style="padding-top: 0; border-bottom: none;">
+  <div class="team-redirect">
+    <div>
+      <h3>Meet the Viveka 2.0 Team</h3>
+      <p>3 project leads and 6 researchers tackling abstract reasoning and AGI evaluation through 2026–27.</p>
+    </div>
+    <a href="team.html#v2" class="btn">View Team →</a>
+  </div>
+</div>
+
+<!-- PUBLICATIONS
+<div class="page-section">
+  <div class="section-label">02 — Research Output</div>
+  <h2 class="section-title">Blogs, papers & publications.</h2>
+  <div class="pub-grid">
+
+    <div class="pub-card" onclick="window.open('#','_blank')">
+      <div class="pub-img">◈</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">ARC-AGI 2</span>
+          <span class="pub-tag">Benchmarking</span>
+        </div>
+        <div class="pub-title">A Mechanistic Analysis of ARC-AGI 2 Failure Modes in GPT-4o</div>
+        <div class="pub-authors">Author A, Author B · 2026</div>
+        <div class="pub-oneliner">We identify systematic failure categories in frontier model attempts on ARC-AGI 2 and trace their mechanistic origins to specific attention and MLP circuits.</div>
+        <div class="pub-type-badge">📄 Preprint</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')">
+      <div class="pub-img">⬡</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Compositional Reasoning</span>
+          <span class="pub-tag">Circuits</span>
+        </div>
+        <div class="pub-title">Do Transformers Compose? Probing Compositional Generalisation on Abstract Tasks</div>
+        <div class="pub-authors">Author C, Author D, Author E · 2026</div>
+        <div class="pub-oneliner">A probing study showing that compositional generalisation in transformers is architecturally constrained and sensitive to training distribution.</div>
+        <div class="pub-type-badge">📄 Workshop Paper</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')">
+      <div class="pub-img">Ψ</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Program Synthesis</span>
+          <span class="pub-tag">Hybrid Systems</span>
+        </div>
+        <div class="pub-title">Neuro-Symbolic Hybrids for ARC: Combining Neural Priors with Program Search</div>
+        <div class="pub-authors">Author F, Author G · 2026</div>
+        <div class="pub-oneliner">We improve ARC-AGI 2 performance by coupling transformer-based hypothesis generation with symbolic program search, achieving state-of-the-art on the open split.</div>
+        <div class="pub-type-badge">📝 Blog Post</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')">
+      <div class="pub-img">∴</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Abstract Reasoning</span>
+          <span class="pub-tag">Interpretability</span>
+        </div>
+        <div class="pub-title">What Does "Reasoning" Look Like Inside a Transformer?</div>
+        <div class="pub-authors">Author H, Author I · 2027</div>
+        <div class="pub-oneliner">An accessible explainer on the internal representations activated during ARC-AGI 2 problem-solving attempts, bridging mechanistic interpretability and cognitive science.</div>
+        <div class="pub-type-badge">📝 Tutorial / Essay</div>
+      </div>
+    </div> -->
+<!-- 
+  </div>
+</div> -->
+
+<footer>
+  <div class="footer-logo">Viveka</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="viveka-1.html">Viveka 1.0</a>
+    <a href="viveka-2.html">Viveka 2.0</a>
+  </div>
+  <div class="footer-copy">© 2026 Viveka Research Lab</div>
+</footer>
+
+</body>
+</html>

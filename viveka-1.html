@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viveka 1.0 — Mechanistic Interpretability of LLMs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #555;
+    --ink-faint: #999;
+    --paper: #f8f5f0;
+    --paper-warm: #ede9e2;
+    --accent: #1a3a2a;
+    --accent-light: #2e6648;
+    --accent-pale: #d4e8dc;
+    --rule: rgba(15,15,15,0.12);
+    --gold: #b8892a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 64px;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a { display: block; padding: 0 1.1rem; height: 64px; line-height: 64px; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-muted); transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--paper); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .nav-links li:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { height: auto; line-height: 1.4; padding: 0.75rem 1.2rem; display: block; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
+  .dropdown-menu a:last-child { border-bottom: none; }
+
+  /* HERO BANNER */
+  .tenure-hero {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 5rem 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tenure-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 1rem;
+  }
+  .tenure-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  .tenure-sub {
+    font-size: 1.1rem;
+    opacity: 0.75;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .tenure-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .tenure-meta-item { font-size: 0.8rem; opacity: 0.55; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tenure-meta-val { font-size: 1rem; font-weight: 500; opacity: 1; display: block; margin-top: 0.15rem; }
+
+  /* SECTIONS */
+  .page-section { padding: 5rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.4rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; max-width: 640px; }
+
+  /* TECHNICAL INTRO */
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .intro-text p { font-size: 0.97rem; color: var(--ink-muted); line-height: 1.85; margin-bottom: 1rem; }
+  .intro-concepts { display: flex; flex-direction: column; gap: 0; }
+  .concept {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .concept:first-child { border-top: 1px solid var(--rule); }
+  .concept-key { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.1rem; }
+  .concept-val { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.6; }
+
+  /* PUBLICATIONS / BLOGS */
+  .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+  .pub-card {
+    border: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    min-height: 180px;
+    background: var(--paper);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.2s;
+    overflow: hidden;
+  }
+  .pub-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .pub-img {
+    background: var(--paper-warm);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    border-right: 1px solid var(--rule);
+    min-height: 180px;
+  }
+  .pub-body { padding: 1.25rem 1.4rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .pub-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .pub-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--accent-pale);
+    background: var(--accent-pale);
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .pub-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .pub-title:hover { color: var(--accent); }
+  .pub-authors { font-size: 0.78rem; color: var(--ink-faint); }
+  .pub-oneliner { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; }
+  .pub-type-badge {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-faint); font-family: 'DM Mono', monospace;
+    margin-top: auto;
+  }
+
+  /* TEAM REDIRECT */
+  .team-redirect {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .team-redirect h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+  .team-redirect p { font-size: 0.9rem; color: var(--ink-muted); margin-top: 0.4rem; max-width: 420px; }
+  .btn { display: inline-block; padding: 0.7rem 1.8rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--ink); color: var(--ink); background: transparent; transition: all 0.2s; }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-fill { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+  .btn-fill:hover { background: var(--accent-light); border-color: var(--accent-light); color: var(--paper); }
+
+  footer { padding: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--rule); }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; text-decoration: none; color: var(--ink-muted); }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy { font-size: 0.75rem; color: var(--ink-faint); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .tenure-hero { padding: 3.5rem 1.5rem; }
+    .page-section { padding: 3.5rem 1.5rem; }
+    .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .pub-grid { grid-template-columns: 1fr; }
+    .pub-card { grid-template-columns: 1fr; }
+    .pub-img { min-height: 120px; border-right: none; border-bottom: 1px solid var(--rule); }
+    footer { padding: 2rem 1.5rem; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Viveka</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li style="position:relative;">
+      <a href="#" class="active">Tenure ▾</a>
+      <div class="dropdown-menu">
+        <a href="viveka-1.html" style="color:var(--accent);">Viveka 1.0 — 2025–26</a>
+        <a href="viveka-2.html">Viveka 2.0 — 2026–27</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="tenure-hero">
+  <div class="tenure-eyebrow">Tenure One · 2025–2026</div>
+  <h1 class="tenure-title">Viveka 1.0</h1>
+  <p class="tenure-sub">Mechanistic interpretability of large language models — probing the internal circuits behind hallucinations, factual recall, and in-context learning.</p>
+  <div class="tenure-meta">
+    <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">Mechanistic Interpretability</span></div>
+    <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Aug 2025 – May 2026</span></div>
+    <div class="tenure-meta-item">Researchers<span class="tenure-meta-val">11 Members</span></div>
+    <div class="tenure-meta-item">Status<span class="tenure-meta-val">Active</span></div>
+  </div>
+</div>
+
+<!-- TECHNICAL INTRO -->
+<div class="page-section">
+  <div class="section-label">01 — Technical Introduction</div>
+  <div class="intro-grid">
+    <div>
+      <h2 class="section-title">What lives inside a language model?</h2>
+      <div class="intro-text">
+      </div>
+    </div>
+    <div class="intro-concepts">
+      <div class="concept">
+        <span class="concept-key">Hallucinations</span>
+        <span class="concept-val">Non linear low- dimensional subspace, truthflow , autoencoders</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Factual Recall</span>
+        <span class="concept-val">Two Hop Circuits, Circuit Analysis</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">In-Context Learning</span>
+        <span class="concept-val">How do few-shot examples change the model's internal computation? We study induction heads, attention patterns, and the circuit-level mechanics of ICL.</span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Studying Transformers in Mathematical Frameworks</span>
+        <span class="concept-val"></span>
+      </div>
+      <div class="concept">
+        <span class="concept-key">Methods</span>
+        <span class="concept-val"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MEET THE TEAM REDIRECT -->
+<div class="page-section" style="padding-top: 0; border-bottom: none;">
+  <div class="team-redirect">
+    <div>
+      <h3>Meet the Viveka 1.0 Team</h3>
+      <p>2 project leads and 9 researchers driving interpretability research through the 2025–26 academic year.</p>
+    </div>
+    <a href="team.html#v1" class="btn btn-fill">View Team →</a>
+  </div>
+</div>
+
+<!-- BLOGS / PAPERS / PUBLICATIONS -->
+<div class="page-section">
+  <div class="section-label">02 — Research Output</div>
+  <h2 class="section-title">Blogs, papers & publications.</h2>
+  <div class="pub-grid">
+
+    <div class="pub-card" onclick="window.open('#','_blank')" style="cursor:pointer;">
+      <div class="pub-img">∇</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Hallucinations</span>
+          <span class="pub-tag">Circuits</span>
+        </div>
+        <div class="pub-title"></div>
+        <div class="pub-authors">Author A, Author B, Author C · 2025</div>
+        <div class="pub-oneliner"></div>
+        <div class="pub-type-badge">📄 Preprint</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')" style="cursor:pointer;">
+      <div class="pub-img">⊕</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Factual Recall</span>
+          <span class="pub-tag">Probing</span>
+        </div>
+        <div class="pub-title"></div>
+        <div class="pub-authors">Author D, Author E · 2025</div>
+        <div class="pub-oneliner"></div>
+        <div class="pub-type-badge">📝 Blog Post</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')" style="cursor:pointer;">
+      <div class="pub-img">λ</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">In-Context Learning</span>
+          <span class="pub-tag">Attention</span>
+        </div>
+        <div class="pub-title"></div>
+        <div class="pub-authors">Author F, Author G, Author H · 2026</div>
+        <div class="pub-oneliner"></div>
+        <div class="pub-type-badge">📄 Workshop Paper</div>
+      </div>
+    </div>
+
+    <div class="pub-card" onclick="window.open('#','_blank')" style="cursor:pointer;">
+      <div class="pub-img">σ</div>
+      <div class="pub-body">
+        <div class="pub-tags">
+          <span class="pub-tag">Interpretability</span>
+          <span class="pub-tag">SAE</span>
+        </div>
+        <div class="pub-title">Autoencoders</div>
+        <div class="pub-authors">Author I, Author J · 2025</div>
+        <div class="pub-oneliner"> </div>
+        <div class="pub-type-badge">📝 Tutorial</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Viveka</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="viveka-1.html">Viveka 1.0</a>
+    <a href="viveka-2.html">Viveka 2.0</a>
+  </div>
+  <div class="footer-copy">© 2025 Viveka Research Lab</div>
+</footer>
+
+</body>
+</html>

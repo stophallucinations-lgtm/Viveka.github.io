@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — Viveka Research Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #555;
+    --ink-faint: #999;
+    --paper: #f8f5f0;
+    --paper-warm: #ede9e2;
+    --accent: #1a3a2a;
+    --accent-light: #2e6648;
+    --accent-pale: #d4e8dc;
+    --rule: rgba(15,15,15,0.12);
+    --gold: #b8892a;
+    --v2: #1c1c2e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 64px;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a { display: block; padding: 0 1.1rem; height: 64px; line-height: 64px; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-muted); transition: color 0.2s; }
+  .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--paper); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .nav-links li:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { height: auto; line-height: 1.4; padding: 0.75rem 1.2rem; display: block; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
+  .dropdown-menu a:last-child { border-bottom: none; }
+
+  /* HEADER */
+  .page-header {
+    padding: 5rem 3rem 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .page-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem; }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 700; line-height: 1.05; }
+  .page-sub { font-size: 1rem; color: var(--ink-muted); max-width: 520px; margin-top: 1rem; }
+
+  /* TENURE BLOCK */
+  .tenure-block { padding: 4rem 3rem; border-bottom: 1px solid var(--rule); }
+  .tenure-block-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .tenure-block-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .tenure-block-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+  .tenure-block-link {
+    margin-left: auto;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .tenure-block-link:hover { text-decoration: underline; }
+  .tenure-block.v2 .tenure-block-link { color: var(--v2); }
+
+  /* ROLE LABEL */
+  .role-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* LEAD CARDS (larger) */
+  .leads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .lead-card {
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .lead-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+  .lead-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .v2 .lead-avatar { background: #d8d8e8; color: var(--v2); }
+  .lead-name { font-weight: 500; font-size: 1.05rem; }
+  .lead-role {
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .v2 .lead-role { color: var(--v2); }
+  .lead-focus { font-size: 0.85rem; color: var(--ink-muted); }
+  .lead-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .lead-tag {
+    font-size: 0.65rem; padding: 0.15rem 0.55rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-muted);
+    background: var(--paper-warm);
+    letter-spacing: 0.04em;
+  }
+
+  /* MEMBER CARDS (compact) */
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .member-card {
+    border: 1px solid var(--rule);
+    padding: 1.25rem 1.25rem;
+    background: var(--paper-warm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .member-card:hover { background: var(--paper); }
+  .member-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .v2 .member-avatar { background: #d8d8e8; color: var(--v2); }
+  .member-name { font-weight: 500; font-size: 0.92rem; }
+  .member-focus { font-size: 0.78rem; color: var(--ink-muted); }
+
+  footer { padding: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--rule); }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; text-decoration: none; color: var(--ink-muted); }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy { font-size: 0.75rem; color: var(--ink-faint); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .page-header { padding: 3rem 1.5rem 2rem; }
+    .tenure-block { padding: 3rem 1.5rem; }
+    .leads-grid { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Viveka</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="team.html" class="active">Team</a></li>
+    <li style="position:relative;">
+      <a href="#">Tenure ▾</a>
+      <div class="dropdown-menu">
+        <a href="viveka-1.html">Viveka 1.0 — 2025–26</a>
+        <a href="viveka-2.html">Viveka 2.0 — 2026–27</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Our People</div>
+  <h1 class="page-title">The Team</h1>
+  <p class="page-sub">Every member of Viveka is a student who chose to ask harder questions. Across two tenures, 15 student researchers have been part of this lab.</p>
+</div>
+
+<!-- VIVEKA 1.0 -->
+<div class="tenure-block" id="v1">
+  <div class="tenure-block-header">
+    <span class="tenure-block-name">Viveka 1.0</span>
+    <span class="tenure-block-year">2025 – 2026 · Mechanistic Interpretability</span>
+    <a href="viveka-1.html" class="tenure-block-link">→ View tenure</a>
+  </div>
+
+  <div class="role-label">Project Leads</div>
+  <div class="leads-grid">
+    <div class="lead-card">
+      <div class="lead-avatar">AL</div>
+      <div>
+        <div class="lead-name">Jayden Koshy Joe</div>
+        <div class="lead-role">Project Lead · V1.0</div>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-avatar">BM</div>
+      <div>
+        <div class="lead-name">Harshith M R</div>
+        <div class="lead-role">Project Lead · V1.0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="role-label">Project Members</div>
+  <div class="members-grid">
+    <div class="member-card">
+      <div class="member-avatar">AM</div>
+      <div class="member-name">Arsh Mathur</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">SK</div>
+      <div class="member-name">Sharan S Keshav</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">VS</div>
+      <div class="member-name">V Sriram</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">EN</div>
+      <div class="member-name">Eshika Nahata</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">SR</div>
+      <div class="member-name">Samrudh Raaj</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">VM</div>
+      <div class="member-name">Vedant Misra</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">SS</div>
+      <div class="member-name">Saahil Faraaz Shaikh</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">PN</div>
+      <div class="member-name">Pakshal Nagda</div>
+      <div class="member-focus"></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">SB</div>
+      <div class="member-name">Smitali Bhandari</div>
+      <div class="member-focus"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VIVEKA 2.0 -->
+<div class="tenure-block v2" id="v2">
+  <div class="tenure-block-header">
+    <span class="tenure-block-name">Viveka 2.0</span>
+    <span class="tenure-block-year">2026 – 2027 · ARC-AGI 2 · Abstract Reasoning</span>
+    <a href="viveka-2.html" class="tenure-block-link">→ View tenure</a>
+  </div>
+
+  <div class="role-label">Project Leads</div>
+  <div class="leads-grid">
+    <div class="lead-card">
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">LW</div>
+      <div>
+        <div class="lead-name">Pakshal Nagda</div>
+        <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
+      </div>
+      <div class="lead-focus">ARC-AGI 2.</div>
+      <div class="lead-tags">
+        <span class="lead-tag">ARC-AGI 2</span>
+        <span class="lead-tag">Evaluation</span>
+        <span class="lead-tag">Benchmarking</span>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">MX</div>
+      <div>
+        <div class="lead-name">Saahil Faraaz Shaikh</div>
+        <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
+      </div>
+      <div class="lead-focus">Compositional generalisation and program synthesis hybrids.</div>
+      <div class="lead-tags">
+        <span class="lead-tag">Program Synthesis</span>
+        <span class="lead-tag">Neuro-Symbolic</span>
+        <span class="lead-tag">Abstract Reasoning</span>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">NY</div>
+      <div>
+        <div class="lead-name">Smitali Bhandari</div>
+        <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
+      </div>
+      <div class="lead-focus">Mechanistic interpretability of reasoning circuits.</div>
+      <div class="lead-tags">
+        <span class="lead-tag">Interpretability</span>
+        <span class="lead-tag">Vision-Language</span>
+        <span class="lead-tag">Reasoning Circuits</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="role-label">Project Members</div>
+  <div class="members-grid">
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">OZ</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">ARC task decomposition · Chain-of-thought tracing</div>
+    </div>
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">PA</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">Spatial reasoning circuits · Visual attention probing</div>
+    </div>
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">QB</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">Program induction · DSL design for ARC</div>
+    </div>
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">RC</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">Abstract pattern generalisation · Ablation studies</div>
+    </div>
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">SD</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">Model scaling laws on ARC-AGI 2 tasks</div>
+    </div>
+    <div class="member-card" style="background: #e8e8f0;">
+      <div class="member-avatar" style="background:#d8d8e8; color:var(--v2);">TE</div>
+      <div class="member-name">Member Name</div>
+      <div class="member-focus">Data augmentation · Synthetic ARC task generation</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Viveka</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="viveka-1.html">Viveka 1.0</a>
+    <a href="viveka-2.html">Viveka 2.0</a>
+  </div>
+  <div class="footer-copy">© 2025 Viveka Research Lab</div>
+</footer>
+
+</body>
+</html>
