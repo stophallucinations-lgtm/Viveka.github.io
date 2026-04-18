@@ -40,7 +40,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: var(--paper); transition: background 0.3s; }
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--paper);
@@ -48,6 +48,10 @@
     font-size: 16px;
     line-height: 1.7;
     transition: background 0.3s, color 0.3s;
+    max-width: 1440px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0,0,0,0.05);
+    min-height: 100vh;
   }
 
   /* NAV */
