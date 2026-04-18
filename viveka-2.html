@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,23 +19,53 @@
     --rule: rgba(15,15,15,0.12);
     --gold: #b8892a;
     --v2: #1c1c2e;
+    --nav-bg: #f8f5f0;
+  }
+  [data-theme="dark"] {
+    --ink: #e8e4dd;
+    --ink-muted: #a8a09a;
+    --ink-faint: #665f58;
+    --paper: #141210;
+    --paper-warm: #1d1a16;
+    --accent: #dfdfdf;
+    --accent-light: #b0b0b0;
+    --accent-pale: #2a2a2a;
+    --rule: rgba(255,255,240,0.10);
+    --gold: #d4a84b;
+    --v2: #4a4a7a;
+    --nav-bg: #141210;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; transition: background 0.3s, color 0.3s; }
 
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: var(--paper); border-bottom: 1px solid var(--rule);
+    background: var(--nav-bg); border-bottom: 1px solid var(--rule);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 3rem; height: 64px;
+    transition: background 0.3s;
   }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #1a3a2a; text-decoration: none; }
+  .dark-toggle {
+    background: none;
+    border: 1.5px solid var(--rule);
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: 0.8rem;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .dark-toggle:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
   .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
   .nav-links li { position: relative; }
   .nav-links a { display: block; padding: 0 1.1rem; height: 64px; line-height: 64px; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-muted); transition: color 0.2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--ink); }
-  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--paper); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--nav-bg); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
   .nav-links li:hover .dropdown-menu { display: block; }
   .dropdown-menu a { height: auto; line-height: 1.4; padding: 0.75rem 1.2rem; display: block; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
   .dropdown-menu a:last-child { border-bottom: none; }
@@ -111,7 +141,7 @@
   .btn:hover { background: #f8f5f0; color: var(--v2); }
 
   footer { padding: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--rule); }
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1a3a2a; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
   .footer-links { display: flex; gap: 1.5rem; }
   .footer-links a { font-size: 0.8rem; text-decoration: none; color: var(--ink-muted); }
   .footer-links a:hover { color: var(--ink); }
@@ -145,6 +175,7 @@
       </div>
     </li>
   </ul>
+  <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
 </nav>
 
 <div class="tenure-hero">
@@ -167,8 +198,8 @@
       <h2 class="section-title">Can AI systems truly reason about novel problems?</h2>
       <div class="intro-text">
         <p>ARC-AGI 2 represents one of the most demanding evaluations of abstract reasoning in AI: tasks designed explicitly so that memorisation and pattern-matching are insufficient. Success requires genuine compositional generalisation — the ability to combine known primitives in ways never encountered during training.</p>
-        <p>Viveka 2.0 sits at the intersection of interpretability and capability. We don't just want to know whether frontier models can solve ARC-AGI 2 tasks — we want to understand <em>how</em> they attempt them, where they fail, and what internal representations underlie the approaches that succeed.</p>
-        <p>By combining the mechanistic toolkit developed in Viveka 1.0 with the empirical challenge of ARC-AGI 2, we aim to produce the first detailed interpretability studies of abstract reasoning circuits in large language and vision-language models. We also aim to advance state-of-the-art performance through informed, interpretability-guided algorithmic improvements.</p>
+        <!-- <p>Viveka 2.0 sits at the intersection of interpretability and capability. We don't just want to know whether frontier models can solve ARC-AGI 2 tasks — we want to understand <em>how</em> they attempt them, where they fail, and what internal representations underlie the approaches that succeed.</p>
+        <p>By combining the mechanistic toolkit developed in Viveka 1.0 with the empirical challenge of ARC-AGI 2, we aim to produce the first detailed interpretability studies of abstract reasoning circuits in large language and vision-language models. We also aim to advance state-of-the-art performance through informed, interpretability-guided algorithmic improvements.</p> -->
       </div>
     </div>
     <!-- <div class="intro-concepts">
@@ -279,5 +310,21 @@
   <div class="footer-copy">© 2026 Viveka Research Lab</div>
 </footer>
 
+<script>
+  const toggle = document.getElementById('darkToggle');
+  const html = document.documentElement;
+  const saved = localStorage.getItem('viveka-theme');
+  if (saved) {
+    html.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+  toggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('viveka-theme', next);
+  });
+</script>
 </body>
 </html>

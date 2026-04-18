@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,23 +19,53 @@
     --rule: rgba(15,15,15,0.12);
     --gold: #b8892a;
     --v2: #1c1c2e;
+    --nav-bg: #f8f5f0;
+  }
+  [data-theme="dark"] {
+    --ink: #e8e4dd;
+    --ink-muted: #a8a09a;
+    --ink-faint: #665f58;
+    --paper: #141210;
+    --paper-warm: #1d1a16;
+    --accent: #4a8f6a;
+    --accent-light: #5aaf80;
+    --accent-pale: #1e3a2a;
+    --rule: rgba(255,255,240,0.10);
+    --gold: #d4a84b;
+    --v2: #4a4a7a;
+    --nav-bg: #141210;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.7; transition: background 0.3s, color 0.3s; }
 
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: var(--paper); border-bottom: 1px solid var(--rule);
+    background: var(--nav-bg); border-bottom: 1px solid var(--rule);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 3rem; height: 64px;
+    transition: background 0.3s;
   }
+  .dark-toggle {
+    background: none;
+    border: 1.5px solid var(--rule);
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: 0.8rem;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .dark-toggle:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
   .nav-links { display: flex; gap: 0; align-items: center; list-style: none; }
   .nav-links li { position: relative; }
   .nav-links a { display: block; padding: 0 1.1rem; height: 64px; line-height: 64px; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: var(--ink-muted); transition: color 0.2s; }
   .nav-links a.active, .nav-links a:hover { color: var(--accent); }
-  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--paper); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--nav-bg); border: 1px solid var(--rule); min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
   .nav-links li:hover .dropdown-menu { display: block; }
   .dropdown-menu a { height: auto; line-height: 1.4; padding: 0.75rem 1.2rem; display: block; border-bottom: 1px solid var(--rule); font-size: 0.82rem; }
   .dropdown-menu a:last-child { border-bottom: none; }
@@ -204,6 +234,7 @@
       </div>
     </li>
   </ul>
+  <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
 </nav>
 
 <div class="page-header">
@@ -223,17 +254,19 @@
   <div class="role-label">Project Leads</div>
   <div class="leads-grid">
     <div class="lead-card">
-      <div class="lead-avatar">AL</div>
+      <div class="lead-avatar">JJ</div>
       <div>
         <div class="lead-name">Jayden Koshy Joe</div>
         <div class="lead-role">Project Lead · V1.0</div>
+        <div class="lead-focus">HMMs and Transformers, Non linear Probing, Truth Subspaces</div>
       </div>
     </div>
     <div class="lead-card">
-      <div class="lead-avatar">BM</div>
+      <div class="lead-avatar">HM</div>
       <div>
         <div class="lead-name">Harshith M R</div>
         <div class="lead-role">Project Lead · V1.0</div>
+        <div class="lead-focus">Non linear Probing, Truth Subspaces</div>
       </div>
     </div>
   </div>
@@ -243,47 +276,47 @@
     <div class="member-card">
       <div class="member-avatar">AM</div>
       <div class="member-name">Arsh Mathur</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Non linear probing</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">SK</div>
       <div class="member-name">Sharan S Keshav</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Non linear Probing</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">VS</div>
       <div class="member-name">V Sriram</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">HMMs and Transformers, ICL</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">EN</div>
       <div class="member-name">Eshika Nahata</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Linear probing and Truthflow</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">SR</div>
       <div class="member-name">Samrudh Raaj</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Autoencoders and Truthflow</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">VM</div>
       <div class="member-name">Vedant Misra</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Linear and nonlinear Probing</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">SS</div>
       <div class="member-name">Saahil Faraaz Shaikh</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Two Hop Factual recall, Self Correction </div>
     </div>
     <div class="member-card">
       <div class="member-avatar">PN</div>
       <div class="member-name">Pakshal Nagda</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">HMMs and transformers, superposition, Factual recall circuits</div>
     </div>
     <div class="member-card">
       <div class="member-avatar">SB</div>
       <div class="member-name">Smitali Bhandari</div>
-      <div class="member-focus"></div>
+      <div class="member-focus">Non linear Probing, Truth Subspace, HMMs and Transformers, ICL, Factual Recall Circuits</div>
     </div>
   </div>
 </div>
@@ -299,43 +332,31 @@
   <div class="role-label">Project Leads</div>
   <div class="leads-grid">
     <div class="lead-card">
-      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">LW</div>
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">PN</div>
       <div>
         <div class="lead-name">Pakshal Nagda</div>
         <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
       </div>
-      <div class="lead-focus">ARC-AGI 2.</div>
-      <div class="lead-tags">
-        <span class="lead-tag">ARC-AGI 2</span>
-        <span class="lead-tag">Evaluation</span>
-        <span class="lead-tag">Benchmarking</span>
-      </div>
+      <div class="lead-focus"></div>
+      <div class="lead-tags"></div>
     </div>
     <div class="lead-card">
-      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">MX</div>
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">SF</div>
       <div>
         <div class="lead-name">Saahil Faraaz Shaikh</div>
         <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
       </div>
-      <div class="lead-focus">Compositional generalisation and program synthesis hybrids.</div>
-      <div class="lead-tags">
-        <span class="lead-tag">Program Synthesis</span>
-        <span class="lead-tag">Neuro-Symbolic</span>
-        <span class="lead-tag">Abstract Reasoning</span>
-      </div>
+      <div class="lead-focus"></div>
+      <div class="lead-tags"></div>
     </div>
     <div class="lead-card">
-      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">NY</div>
+      <div class="lead-avatar" style="background:#d8d8e8; color:var(--v2);">SB</div>
       <div>
         <div class="lead-name">Smitali Bhandari</div>
         <div class="lead-role" style="color:var(--v2);">Project Lead · V2.0</div>
       </div>
-      <div class="lead-focus">Mechanistic interpretability of reasoning circuits.</div>
-      <div class="lead-tags">
-        <span class="lead-tag">Interpretability</span>
-        <span class="lead-tag">Vision-Language</span>
-        <span class="lead-tag">Reasoning Circuits</span>
-      </div>
+      <div class="lead-focus"></div>
+      <div class="lead-tags"></div>
     </div>
   </div>
 
@@ -385,5 +406,21 @@
   <div class="footer-copy">© 2025 Viveka Research Lab</div>
 </footer>
 
+<script>
+  const toggle = document.getElementById('darkToggle');
+  const html = document.documentElement;
+  const saved = localStorage.getItem('viveka-theme');
+  if (saved) {
+    html.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+  toggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('viveka-theme', next);
+  });
+</script>
 </body>
 </html>
