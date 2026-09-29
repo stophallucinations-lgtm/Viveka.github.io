@@ -172,8 +172,17 @@
     .tenure-hero {
       background: var(--accent);
       color: var(--paper);
-      padding: 5rem 3rem;
+      padding: 2.5rem 3rem;
       border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .tenure-hero-content {
+      position: relative;
+      z-index: 1;
     }
 
     .tenure-eyebrow {
@@ -202,17 +211,19 @@
     }
 
     .tenure-hero-photo {
-      margin-top: 2.5rem;
-      max-width: 680px;
-      border-radius: 4px;
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border-radius: 4px;
     }
 
     .tenure-hero-photo img {
       width: 100%;
+      height: 420px;
       display: block;
       object-fit: cover;
+      object-position: center top;
     }
 
     .tenure-meta {
@@ -501,6 +512,9 @@
 
       .tenure-hero {
         padding: 3.5rem 1.5rem;
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 2rem;
       }
 
       .page-section {
@@ -554,15 +568,17 @@
 
   <!-- HERO -->
   <div class="tenure-hero">
-    <div class="tenure-eyebrow">Tenure One · 2025–2026</div>
-    <h1 class="tenure-title">Viveka 1.0</h1>
-    <p class="tenure-sub">Mechanistic interpretability of large language models - probing the internal circuits behind
-      hallucinations, factual recall, and in-context learning.</p>
-    <div class="tenure-meta">
-      <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">Mechanistic Interpretability</span></div>
-      <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Aug 2025 – May 2026</span></div>
-      <div class="tenure-meta-item">Researchers<span class="tenure-meta-val">11 Members</span></div>
-      <div class="tenure-meta-item">Status<span class="tenure-meta-val">Dormant</span></div>
+    <div class="tenure-hero-content">
+      <div class="tenure-eyebrow">Tenure One · 2025–2026</div>
+      <h1 class="tenure-title">Viveka 1.0</h1>
+      <p class="tenure-sub">Mechanistic interpretability of large language models - probing the internal circuits behind
+        hallucinations, factual recall, and in-context learning.</p>
+      <div class="tenure-meta">
+        <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">Mechanistic Interpretability</span></div>
+        <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Aug 2025 – May 2026</span></div>
+        <div class="tenure-meta-item">Researchers<span class="tenure-meta-val">11 Members</span></div>
+        <div class="tenure-meta-item">Status<span class="tenure-meta-val">Dormant</span></div>
+      </div>
     </div>
     <div class="tenure-hero-photo">
       <img src="group_photo.jpg" alt="Viveka 1.0 team photo" />

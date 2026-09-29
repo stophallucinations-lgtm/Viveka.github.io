@@ -85,10 +85,18 @@
   .tenure-hero {
     background: var(--v2);
     color: #f8f5f0;
-    padding: 5rem 3rem;
+    padding: 2.5rem 3rem;
     border-bottom: 1px solid var(--rule);
     position: relative;
     overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .tenure-hero-content {
+    position: relative;
+    z-index: 1;
   }
   .tenure-hero::before {
     content: '2.0';
@@ -103,8 +111,14 @@
   .tenure-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.45; margin-bottom: 1rem; }
   .tenure-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.05; margin-bottom: 1rem; }
   .tenure-sub { font-size: 1.1rem; opacity: 0.7; max-width: 560px; line-height: 1.7; margin-bottom: 2rem; }
-  .tenure-hero-photo { margin-top: 2.5rem; max-width: 680px; border-radius: 4px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-  .tenure-hero-photo img { width: 100%; display: block; object-fit: cover; }
+  .tenure-hero-photo {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    border-radius: 4px;
+  }
+  .tenure-hero-photo img { width: 100%; height: 420px; display: block; object-fit: cover; object-position: center top; }
   .tenure-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
   .tenure-meta-item { font-size: 0.8rem; opacity: 0.45; letter-spacing: 0.08em; text-transform: uppercase; }
   .tenure-meta-val { font-size: 1rem; font-weight: 500; opacity: 1; display: block; margin-top: 0.15rem; }
@@ -162,7 +176,7 @@
 
   @media (max-width: 768px) {
     nav { padding: 0 1.5rem; }
-    .tenure-hero { padding: 3.5rem 1.5rem; }
+    .tenure-hero { padding: 3.5rem 1.5rem; grid-template-columns: 1fr; min-height: auto; gap: 2rem; }
     .tenure-hero::before { display: none; }
     .page-section { padding: 3.5rem 1.5rem; }
     .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -192,13 +206,15 @@
 </nav>
 
 <div class="tenure-hero">
-  <div class="tenure-eyebrow">Tenure Two · 2026–2027</div>
-  <h1 class="tenure-title">Viveka 2.0</h1>
-  <p class="tenure-sub">Interpreting and advancing ARC-AGI 2 - probing the limits of abstract reasoning, compositional generalisation, and genuine novelty-handling in frontier AI systems.</p>
-  <div class="tenure-meta">
-    <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">AGI Evaluation & Reasoning</span></div>
-    <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Jul 2026 – Dec 2026</span></div>
-    <div class="tenure-meta-item">Status<span class="tenure-meta-val">Active</span></div>
+  <div class="tenure-hero-content">
+    <div class="tenure-eyebrow">Tenure Two · 2026–2027</div>
+    <h1 class="tenure-title">Viveka 2.0</h1>
+    <p class="tenure-sub">Interpreting and advancing ARC-AGI 2 - probing the limits of abstract reasoning, compositional generalisation, and genuine novelty-handling in frontier AI systems.</p>
+    <div class="tenure-meta">
+      <div class="tenure-meta-item">Focus Area<span class="tenure-meta-val">AGI Evaluation & Reasoning</span></div>
+      <div class="tenure-meta-item">Duration<span class="tenure-meta-val">Jul 2026 – Dec 2026</span></div>
+      <div class="tenure-meta-item">Status<span class="tenure-meta-val">Active</span></div>
+    </div>
   </div>
   <div class="tenure-hero-photo">
     <img src="viveka2.jpeg" alt="Viveka 2.0 team photo" />
