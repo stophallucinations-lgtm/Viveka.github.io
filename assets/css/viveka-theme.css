@@ -420,3 +420,197 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* AI Club project-page structure for Viveka tenure pages. */
+.tenure-page {
+  padding-bottom: clamp(3rem, 6vw, 6rem);
+}
+
+.tenure-hero {
+  display: block;
+  min-height: 0;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(4.5rem, 8vw, 7.5rem) clamp(1.4rem, 5vw, 4rem) 2.5rem;
+  background: transparent;
+  border-bottom: 0;
+  text-align: center;
+}
+
+.tenure-hero::before {
+  display: none;
+}
+
+.tenure-hero-content {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.tenure-eyebrow {
+  margin-bottom: 1.25rem;
+}
+
+.tenure-title {
+  font-size: clamp(4rem, 9vw, 7.8rem);
+}
+
+.tenure-sub {
+  max-width: 900px;
+  margin: 1.8rem auto 2.2rem;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.65;
+}
+
+.tenure-meta {
+  justify-content: center;
+  gap: 1.25rem 3rem;
+}
+
+.tenure-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.2rem;
+}
+
+.tenure-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  color: #d1d1d6;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.tenure-back:hover {
+  border-color: rgba(255, 255, 255, 0.68);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.tenure-hero-photo {
+  max-width: 1000px;
+  margin: clamp(2.5rem, 5vw, 4.5rem) auto 0;
+  background: #0b0b0d;
+  border-radius: 22px;
+}
+
+.tenure-hero-photo img,
+.tenure-hero-photo .full-frame-photo {
+  width: 100%;
+  height: auto;
+  max-height: 680px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  filter: none;
+}
+
+.page-section {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 0;
+}
+
+.page-section .section-title {
+  max-width: 920px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(2rem, 3.5vw, 3.15rem);
+}
+
+.intro-grid {
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.5fr);
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.team-section {
+  padding-top: clamp(2.5rem, 5vw, 4rem) !important;
+}
+
+.team-redirect {
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+  background: #0b0b0d;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+}
+
+.team-redirect h3 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.team-redirect .btn,
+.team-redirect .btn-fill {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.pub-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pub-card {
+  min-height: 200px;
+  border-radius: 20px;
+}
+
+.recruitment-section > div[style*="max-width"] {
+  max-width: none !important;
+  margin-top: 1.5rem !important;
+}
+
+.recruitment-section iframe {
+  background: #0b0b0d;
+}
+
+.recruitment-section > div[style*="height"] {
+  overflow: hidden;
+  border-radius: 20px !important;
+}
+
+@media (max-width: 1120px) {
+  .page-section {
+    width: calc(100% - 48px);
+  }
+}
+
+@media (max-width: 760px) {
+  .tenure-hero {
+    padding-top: 3.5rem;
+  }
+
+  .tenure-title {
+    font-size: clamp(3.4rem, 18vw, 5.4rem);
+  }
+
+  .tenure-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    text-align: left;
+  }
+
+  .tenure-hero-photo {
+    margin-top: 2.5rem;
+    border-radius: 16px;
+  }
+
+  .page-section {
+    width: calc(100% - 40px);
+    padding: 2.5rem 0;
+  }
+
+  .intro-grid,
+  .pub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-redirect {
+    align-items: flex-start;
+  }
+}
