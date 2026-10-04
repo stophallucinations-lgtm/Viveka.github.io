@@ -465,6 +465,7 @@
     footer { padding: 2rem 1.5rem; flex-direction: column; }
   }
 </style>
+<link rel="stylesheet" href="assets/css/viveka-theme.css">
 </head>
 <body>
 
@@ -481,7 +482,6 @@
       </div>
     </li>
   </ul>
-  <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
 </nav>
 
 <!-- HERO -->
@@ -500,7 +500,6 @@
       <img src="vivekafull.jpeg" alt="Viveka research team group photo" />
       <div class="hero-photo-caption">
         <strong>The Viveka Team</strong>
-        <span>11 student researchers · 2025–2026</span>
       </div>
     </div>
     <div class="hero-quote">
@@ -647,26 +646,6 @@
   </div>
   <div class="footer-copy">© 2025 Viveka Research Group</div>
 </footer>
-
-<script>
-  const toggle = document.getElementById('darkToggle');
-  const html = document.documentElement;
-
-  // Load saved preference
-  const saved = localStorage.getItem('viveka-theme');
-  if (saved) {
-    html.setAttribute('data-theme', saved);
-    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
-  }
-
-  toggle.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem('viveka-theme', next);
-  });
-</script>
 
 </body>
 </html>

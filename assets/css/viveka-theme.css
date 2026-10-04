@@ -1,0 +1,409 @@
+/* Viveka visual system — static, monochrome, and research-led. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f5f5f7;
+  --ink-muted: #b2b2b8;
+  --ink-faint: #74747c;
+  --paper: #050505;
+  --paper-warm: #0d0d0f;
+  --accent: #f5f5f7;
+  --accent-light: #dcdce1;
+  --accent-pale: #18181c;
+  --rule: rgba(255, 255, 255, 0.14);
+  --gold: #ffffff;
+  --v2: #0b0b0d;
+  --nav-bg: rgba(5, 5, 5, 0.94);
+  --gradient: linear-gradient(135deg, #a91f70 0%, #6d3fa0 48%, #2466b3 100%);
+}
+
+html { background: #050505; scroll-behavior: smooth; }
+
+body {
+  max-width: none;
+  margin: 0;
+  background: #050505;
+  color: var(--ink);
+  box-shadow: none;
+  font-family: "DM Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body,
+body::before,
+body::after { animation: none !important; background-image: none; }
+
+nav {
+  height: 82px;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+  background: var(--nav-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.nav-logo::before {
+  content: "V";
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+.nav-links { gap: clamp(0.2rem, 1.4vw, 1.4rem); }
+
+.nav-links a {
+  height: 82px;
+  padding: 0 0.65rem;
+  color: #a7a7ad;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 82px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: #fff !important; }
+
+.dropdown-menu {
+  min-width: 220px;
+  padding: 0.5rem;
+  background: #0b0b0d;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+.dropdown-menu a {
+  height: auto;
+  padding: 0.8rem 0.9rem;
+  border: 0;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+.dropdown-menu a:hover { background: #17171a; }
+.dark-toggle { display: none !important; }
+
+section,
+.page-section,
+.tenure-block,
+.page-header {
+  padding-right: clamp(1.4rem, 7vw, 7rem);
+  padding-left: clamp(1.4rem, 7vw, 7rem);
+  border-color: var(--rule);
+}
+
+.hero {
+  min-height: calc(100vh - 82px);
+  padding: clamp(4.5rem, 8vw, 8rem) clamp(1.4rem, 7vw, 7rem);
+  gap: clamp(3rem, 7vw, 7rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-eyebrow,
+.page-eyebrow,
+.section-label,
+.tenure-eyebrow,
+.role-label,
+.pub-type-badge,
+.tenure-block-year,
+.lead-role,
+.tenure-meta-item {
+  color: #8f8f97;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-title,
+.page-title,
+.section-title,
+.tenure-title,
+.tenure-block-name,
+.tenure-card-title,
+.team-redirect h3,
+.pub-title {
+  color: #fff;
+  font-family: inherit;
+  font-style: normal;
+  letter-spacing: -0.045em;
+}
+
+.hero-title {
+  max-width: 740px;
+  font-size: clamp(3.6rem, 7.5vw, 7.5rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.hero-title em { color: #fff; font-style: normal; }
+
+.hero-sub,
+.page-sub,
+.tenure-sub,
+.intro-text p,
+.about-text p,
+.pillar-desc,
+.tenure-card-desc,
+.advisor-affil,
+.lead-focus,
+.member-focus,
+.pub-oneliner,
+.concept-val { color: var(--ink-muted); }
+
+.hero-sub {
+  max-width: 590px;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+}
+
+.btn,
+.btn-fill {
+  padding: 0.85rem 1.35rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.73rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+.btn-fill { background: #fff; border-color: #fff; color: #050505; }
+
+.btn:hover,
+.btn-fill:hover {
+  background: var(--gradient);
+  border-color: transparent;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.hero-photo-wrapper,
+.tenure-hero-photo {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 22px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.42);
+}
+
+.hero-photo-wrapper img,
+[data-theme="dark"] .hero-photo-wrapper img,
+.tenure-hero-photo img { filter: none; }
+
+.hero-photo-wrapper:hover img { filter: none; }
+
+.hero-quote {
+  padding: 1.15rem 1.35rem;
+  background: #0c0c0e;
+  border: 1px solid var(--rule);
+  border-left: 3px solid #8e3b9d;
+  border-radius: 0 12px 12px 0;
+  color: var(--ink-muted);
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 4.4vw, 4.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+#tenures .section-title {
+  max-width: 1000px;
+}
+
+.about-grid,
+.intro-grid { gap: clamp(2.5rem, 7vw, 7rem); }
+
+.pillar,
+.concept { border-color: var(--rule); }
+
+.pillar-num,
+.concept-key { color: #8d8d95; font-family: inherit; }
+.pillar-title { color: #fff; font-weight: 500; }
+
+.tenure-grid,
+.advisors-grid,
+.leads-grid,
+.members-grid,
+.pub-grid { gap: 1rem; }
+
+.tenure-card,
+.advisor-card,
+.lead-card,
+.member-card,
+.pub-card {
+  overflow: hidden;
+  background: #0b0b0d;
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  color: #fff;
+}
+
+.tenure-card:hover,
+.advisor-card:hover,
+.lead-card:hover,
+.member-card:hover,
+.pub-card:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+  transform: translateY(-3px);
+}
+
+.tenure-card-header,
+.tenure-card-header.v2,
+.team-redirect { background: var(--gradient); color: #fff; }
+
+.tenure-card-header { min-height: 190px; }
+.tenure-card-body { background: #0b0b0d; }
+
+.theme-tag,
+.lead-tag,
+.pub-tag,
+.supporter-badge {
+  background: #151518;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: #bdbdc3;
+}
+
+.tenure-card-link,
+.tenure-block-link { color: #fff !important; }
+
+.advisor-avatar,
+.lead-avatar,
+.member-avatar,
+.v2 .lead-avatar,
+.v2 .member-avatar {
+  background: var(--gradient) !important;
+  color: #fff !important;
+}
+
+.advisor-avatar { border-radius: 50%; }
+.supporters-row { gap: 0.75rem; }
+.supporter-badge { padding: 0.85rem 1.25rem; }
+
+.page-header {
+  padding-top: clamp(5rem, 10vw, 9rem);
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+}
+
+.page-title {
+  font-size: clamp(3.4rem, 8vw, 7rem);
+  font-weight: 500;
+}
+
+.tenure-block {
+  padding-top: clamp(4rem, 7vw, 7rem);
+  padding-bottom: clamp(4rem, 7vw, 7rem);
+}
+
+.tenure-block-name { font-weight: 500; }
+.lead-card, .member-card { background: #0b0b0d; }
+.lead-role, .v2 .lead-role { color: #a66bc1 !important; }
+.social-link { color: #d5d5da; }
+
+.tenure-hero {
+  min-height: calc(100vh - 82px);
+  padding: clamp(4rem, 7vw, 7rem) clamp(1.4rem, 7vw, 7rem);
+  background: #050505;
+  border-color: var(--rule);
+}
+
+.tenure-hero::before { color: #fff; opacity: 0.035; }
+
+.tenure-title {
+  font-size: clamp(3.8rem, 8vw, 8rem);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.tenure-meta { gap: 2.5rem; }
+
+.tenure-meta-val {
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.page-section {
+  padding-top: clamp(4.5rem, 8vw, 8rem);
+  padding-bottom: clamp(4.5rem, 8vw, 8rem);
+}
+
+.team-redirect {
+  padding: clamp(2rem, 4vw, 4rem);
+  border-radius: 18px;
+}
+
+.pub-img {
+  background: linear-gradient(145deg, #961e68, #294f9d);
+  border-color: var(--rule);
+  color: #fff;
+}
+
+.pub-body { background: #0b0b0d; }
+.pub-title { font-weight: 500; }
+
+footer {
+  padding: 2.5rem clamp(1.4rem, 7vw, 7rem);
+  background: #050505;
+  border-color: var(--rule);
+}
+
+.footer-logo { color: #fff; font-family: inherit; font-weight: 500; }
+.footer-links a { color: #9999a1; }
+.footer-links a:hover { color: #fff; }
+
+@media (max-width: 880px) {
+  .hero,
+  .tenure-hero { min-height: auto; grid-template-columns: 1fr; }
+
+  .hero-photo-wrapper img,
+  .tenure-hero-photo img { height: min(68vw, 480px); }
+}
+
+@media (max-width: 640px) {
+  nav { height: 68px; padding: 0 1rem; }
+  .nav-logo { font-size: 0; }
+  .nav-logo::before { width: 32px; height: 32px; font-size: 0.8rem; }
+  .nav-links { gap: 0; }
+  .nav-links a { height: 68px; padding: 0 0.42rem; font-size: 0.69rem; line-height: 68px; }
+  .dropdown-menu { right: 0; left: auto; }
+  .hero-title { font-size: clamp(3.25rem, 16vw, 5rem); }
+  .hero { padding-top: 4.5rem; }
+  .hero-ctas { gap: 0.65rem; }
+  .tenure-card-header { min-height: 155px; }
+  footer { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
